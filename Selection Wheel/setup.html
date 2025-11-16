@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Setup Wheel</title>
+
+<style>
+body {
+  margin: 0;
+  background: url("Bg.png");
+  background-size: cover;
+  font-family: Inter, Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.container {
+  background: rgba(255,255,255,0.05);
+  padding: 30px;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  text-align: center;
+}
+
+h1 {
+  color: #F2D4CC;
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+}
+
+button {
+  background: #39215E;
+  color: #F2D4CC;
+  font-weight: 700;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.home-btn {
+  margin-top: 20px;
+  display: inline-block;
+  text-decoration: none;
+  background: #39215E;
+  color: #F2D4CC;
+  padding: 10px 20px;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+.home-btn:hover { opacity: 0.85; }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1> Setup Wheel</h1>
+
+  <input type="number" id="count" min="2" max="20" placeholder="Number of segments" />
+
+  <textarea id="names" rows="3" placeholder="Enter names separated by commas (A, B, C...)"></textarea>
+
+  <button id="saveBtn">Save Wheel</button>
+
+  <a class="home-btn" href="index.html">🏠 Back Home</a>
+  <a class="home-btn" href="spin.html">🎡 Spin Wheel</a>
+</div>
+
+<script>
+document.getElementById("saveBtn").onclick = function () {
+    const count = parseInt(document.getElementById("count").value);
+    const names = document.getElementById("names").value.split(",").map(s => s.trim()).filter(Boolean);
+
+    if (!count || names.length < count) {
+        alert("Please enter enough segment names!");
+        return;
+    }
+
+    const wheelData = names.slice(0, count);
+    localStorage.setItem("wheelSegments", JSON.stringify(wheelData));
+    localStorage.removeItem("lastResult");
+
+    alert("Saved! You can now spin the wheel.");
+};
+</script>
+
+</body>
+</html>

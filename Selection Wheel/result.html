@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spin Result</title>
+
+<style>
+body {
+  margin: 0;
+  background: url("Bg.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.container {
+  padding: 30px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  width: 90%;
+  max-width: 480px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+h1, p { color: #F2D4CC; }
+
+.btn {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #39215E;
+  border-radius: 12px;
+  color: #F2D4CC;
+  text-decoration: none;
+  margin-top: 20px;
+}
+.btn:hover { opacity: 0.85; }
+</style>
+</head>
+
+<body>
+<div class="container">
+  <h1>📜 Last Spin Result</h1>
+  <p id="output">Loading...</p>
+
+  <a class="btn" href="index.html">🏠 Back Home</a>
+</div>
+
+<script>
+const result = localStorage.getItem("lastResult");
+document.getElementById("output").textContent =
+  result ? `You landed on: ${result}` : "No result yet.";
+</script>
+
+</body>
+</html>

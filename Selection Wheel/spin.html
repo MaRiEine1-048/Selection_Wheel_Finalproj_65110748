@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spin Wheel</title>
+
+<style>
+body {
+  margin: 0;
+  background: url("Bg.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: Inter, Arial, sans-serif;
+}
+
+.container {
+  padding: 20px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 18px;
+  text-align: center;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+h1 { color: #F2D4CC; }
+
+.wheel {
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  margin: auto;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.pointer {
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-top: 25px solid #fff;
+  position: relative;
+  top: -20px;
+  margin: auto;
+}
+
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  background: #39215E;
+  color: #F2D4CC;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 10px;
+}
+button:hover { opacity: 0.85; }
+
+.home-btn {
+  display: inline-block;
+  background: #39215E;
+  color: #F2D4CC;
+  padding: 10px 20px;
+  border-radius: 12px;
+  text-decoration: none;
+  margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>🎡 Spin!</h1>
+
+<div class="pointer"></div>
+<div id="wheel" class="wheel"></div>
+
+<button id="spinBtn">SPIN</button>
+
+<a class="home-btn" href="index.html">🏠 Back Home</a>
+<a class="home-btn" href="result.html">📜 Last Result</a>
+</div>
+
+<script>
+const wheel = document.getElementById("wheel");
+const segments = JSON.parse(localStorage.getItem("wheelSegments")) || [];
+if (segments.length === 0) {
+  alert("No wheel data! Setup the wheel first.");
+}
+
+const color1 = "#920030";
+const color2 = "#F2D4CC";
+
+let deg = 0;
+
+function buildWheel() {
+  const step = 360 / segments.length;
+  const gradient = segments.map((_, i) => {
+    return `${i % 2 === 0 ? color1 : color2} ${i*step}deg ${(i+1)*step}deg`;
+  });
+
+  wheel.style.background = `conic-gradient(${gradient.join(",")})`;
+}
+
+buildWheel();
+
+document.getElementById("spinBtn").onclick = () => {
+  const sector = 360 / segments.length;
+  const finalIndex = Math.floor(Math.random() * segments.length);
+  const angle = finalIndex * sector + sector / 2;
+  const spins = 360 * 5 + angle;
+
+  wheel.style.transition = "4s cubic-bezier(.17,.67,.83,.67)";
+  wheel.style.transform = `rotate(${spins}deg)`;
+
+  setTimeout(() => {
+    localStorage.setItem("lastResult", segments[finalIndex]);
+    alert("Result saved!");
+  }, 4200);
+};
+</script>
+
+</body>
+</html>
